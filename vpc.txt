@@ -1,0 +1,68 @@
+Step 1 :  create vpc myvpc
+Step 2 : pv4 CIDR block range : 10.0.0.0/16 and tenancy : Default
+Step 3 : select No IPv6 CIDR block 
+Step 4 : create subnet for public 
+Step 5 :  select vpc(created at step1 )
+Step 6 : give name  for public subnect public-subnet-10.0.0.0/24-1a	
+Step 7 : select avaliablity zone: us-east-1a
+Step 8 : Define IPv4 CIDR block  : 10.0.0.0/24
+Step 9 : create subnet for private 
+Step 10 : give name  for private subnect private-subnet-10.0.1.0/24-1b
+Step 11 : select avaliablity zone for private subnet: us-east-1b
+Step 12 : Define IPv4 CIDR block  : 10.0.1.0/24	
+Step 13 : create Internet-gateway and atached it to vpc(created at step1)
+Step 14 : give name for internet-gateway : my-internet-gateway
+Step 15 : select internetgateway and click on action button under that  click on attach button select  vpc (created at step1)
+Step 16 : create route table . give it name : public-route
+Step 17 : select vpc (created at step1)
+Step 18 : Define route : (select route table and  click under Routes tab)
+Step 19 : click on edit route Do not change existing 
+Step 20 : click on add route 
+Step 21 : specify range : 0.0.0.0/0  to  Target (internetgate created at 13)
+Step 22 : click  on save button
+Step 23 : select route table and under subnet association tab
+Step 24 : click on edit subnet association
+Step 25 : select subnet(public) where internet connect has to be connected
+Step 26 : click on save button
+Step 27 : select public subnet click on action and  click on Edit subnet setting 
+Step 28 : click on checkbox Enable auto-assign public IPv4 address
+Step 29 : create instance on public subnet
+Step 30 : at step 3 configuration   Select vpc(created at step1) Under Network option
+Step 31 : at step 3 configuration   Select public-subnet (created at step 4 ) under Subnet option
+Step 32 :at step 3 configuration   Auto-assign Public IP : use subnet setting (Enable)
+Step 33 : add tag give name for sever webserver
+Step 34 : at step 6 Configure Security group click on Create new security group
+step 35 : give name for  security group : public-subnet-SG
+Step 36 : at step 6 Configure Security group click on Add Rule 
+SSH  Source Anywhere 0.0.0.0::/0 
+Http Source ANywhere 0.0.0.0::/0
+Step 37 : scp -i   syedwin10.pem  syedwin10.pem  ubuntu@18.207.206.244:~ in local terminal where there is key.pem file
+Step 38 : in instance runin on  public subnet change permission 600  : chmod 600 syedwin10.pem.
+Step 39 : lunch ec2 instance under private subnet
+Step 40 : at step 3 Configure instance select vpc(created at step1 ) under Network 
+and select private subnet(created step 9) under Subnet 
+and Auto-assign Public IP keep it disable   
+Step 41: add tag Name : database server
+Step 42 : at step 6configure Security select create   new security group
+Step 43 : give name for security group : private-subnet-sg
+Step 44 : SSH Custom : 10.0.0.0/24
+Step 45 : ALL ICMP-IPv4  Custom : 10.0.0.0/24
+Step 46 : MYSQL/Aurora  Custom : 10.0.0.0/24
+Step 47 : instance running on public subnet  on terminal entered detail: ssh -i syedwin10.pem ubuntu@privateip 
+Step 48 : Allocate Elastic IP address( release ip after pracitce.)
+Step 49 : select Network Border Group  us-east-1
+Step 50 : check on radio button Amazon pool of IPv4 address 
+Step 51 : click on allocate button
+Step 52 : create Nat gateway
+Step 53 : give name my-nat-gw
+Step 54 : select subnet public
+Step 55 : connectivity type : Public radio check
+Step 56 : select elastic IP (created at step 48)
+Step 57 : click on create NAT gateway
+Step 58 : select main route table(default for user created vpc )
+under Routes tab click on edit route add route  0.0.0.0/0 to natgatway (created at step 57)
+
+
+
+
+
